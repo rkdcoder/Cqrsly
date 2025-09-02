@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <PackageId>Cqrsly</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Rodrigo</Authors>
+    <Company>rkdcoder.com.br</Company>
+    <Product>Cqrsly NuGet</Product>
+
+    <PackageDescription>Lightweight CQRS dispatcher for .NET 8+. Provides MediatR-like API with Send, Publish, and pipeline behaviors. Supports Commands, Queries, and Notifications with fluent registration. Minimal setup: one line to register handlers and start dispatching. High-performance, production-ready, and dependency-free.</PackageDescription>
+
+    <Description>Cqrsly is a minimal, high-performance CQRS mediator for .NET 8+ applications. It offers the same ergonomics as MediatR with IRequest, IRequestHandler, INotification, and pipeline behaviors. Includes fluent API registration for commands, queries, and domain events. Supports sequential or parallel notification publishing, lightweight in-process dispatching, and extensible behaviors for logging, validation, or metrics. Designed for production Web APIs and services that need CQRS essentials without extra dependencies.</Description>
+
+    <RepositoryUrl>https://github.com/yourrepo/Cqrsly</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/yourrepo/Cqrsly</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>icon.png</PackageIcon>
+
+    <PackageTags>cqrs;mediator;dispatcher;commands;queries;notifications;events;pipeline;aspnetcore;dotnet;fluentapi;high-performance;in-process</PackageTags>
+
+    <Title>Cqrsly</Title>
+    <Summary>Minimal CQRS dispatcher for .NET 8+ with MediatR-like API</Summary>
+    <ReadMe>README.md</ReadMe>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Media\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
