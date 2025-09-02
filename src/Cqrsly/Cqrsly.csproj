@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
 
     <PackageId>Cqrsly</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Rodrigo</Authors>
     <Company>rkdcoder.com.br</Company>
     <Product>Cqrsly NuGet</Product>
@@ -15,8 +15,8 @@
 
     <Description>Cqrsly is a minimal, high-performance CQRS mediator for .NET 8+ applications. It offers the same ergonomics as MediatR with IRequest, IRequestHandler, INotification, and pipeline behaviors. Includes fluent API registration for commands, queries, and domain events. Supports sequential or parallel notification publishing, lightweight in-process dispatching, and extensible behaviors for logging, validation, or metrics. Designed for production Web APIs and services that need CQRS essentials without extra dependencies.</Description>
 
-    <RepositoryUrl>https://github.com/yourrepo/Cqrsly</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/yourrepo/Cqrsly</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rkdcoder/Cqrsly</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/rkdcoder/Cqrsly</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
 
