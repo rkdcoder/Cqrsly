@@ -1,7 +1,7 @@
 ﻿# Cqrsly – Minimal CQRS Dispatcher for .NET (8+)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rkdcoder/Cqrsly/main/media/icon.png" width="128" alt="Cqrsly logo" />
+  <img src="https://raw.githubusercontent.com/rkdcoder/Cqrsly/main/src/Cqrsly/Media/icon.png" width="128" alt="Cqrsly logo" />
 </p>
 
 [![NuGet](https://img.shields.io/nuget/v/Cqrsly.svg)](https://www.nuget.org/packages/Cqrsly)
