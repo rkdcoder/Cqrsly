@@ -12,7 +12,7 @@
 
 - **Commands & Queries** with return types
 - **Pipeline behaviors** (logging, validation, etc.)
-- **Notifications (domain events)** with sequential or parallel fan-out
+- **Notifications (domain events)** with sequential dispatch
 - **Fluent API registration** for easy integration
 - Minimal, production-ready setup: 1–2 lines in `Program.cs`
 
@@ -37,7 +37,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCqrsly(cfg => cfg
     .AddHandlersFromAssemblyContaining<CreateAlertCommand>()
-    .WithNotifications(NotificationPublishStrategy.Sequential)
 );
 
 var app = builder.Build();
@@ -54,7 +53,7 @@ app.Run();
 using Cqrsly;
 using Teste.Dto;
 
-public sealed class CreateAlertCommand : ICommand<CommandResultDto<object?>>
+public sealed class CreateAlertCommand : IRequest<CommandResultDto<object?>>
 {
     public string Title { get; }
     public string Content { get; }
@@ -108,7 +107,14 @@ public class AlertsController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateAlertDto dto, CancellationToken ct)
     {
         var cmd = new CreateAlertCommand(dto.Title, dto.Content);
+
+        // Duas opções de chamada:
+        // 1) Estilo MediatR (inferência do tipo de retorno)
         var result = await _cqrsly.Send(cmd, ct);
+
+        // 2) Estilo explícito (TRequest, TResponse)
+        // var result = await _cqrsly.Send<CreateAlertCommand, CommandResultDto<object?>>(cmd, ct);
+
         return Ok(result);
     }
 }
@@ -119,7 +125,10 @@ public class AlertsController : ControllerBase
 ## Query Example (for tests)
 
 ```csharp
-public sealed class GetAlertsQuery : IQuery<CommandResultDto<IReadOnlyList<AlertDto>>>
+using Cqrsly;
+using Teste.Dto;
+
+public sealed class GetAlertsQuery : IRequest<CommandResultDto<IReadOnlyList<AlertDto>>>
 {
     public string? TitleContains { get; }
     public GetAlertsQuery(string? titleContains) => TitleContains = titleContains;
@@ -141,11 +150,11 @@ public sealed class GetAlertsQueryHandler : IRequestHandler<GetAlertsQuery, Comm
 
 ## Features
 
-- **Commands & Queries** with strong typing
+- **Commands & Queries** with strong typing (`IRequest` and `IRequest<T>`)
 - **Pipeline behaviors** (`IPipelineBehavior<TReq,TRes>`) for logging, validation, telemetry
-- **Notifications** (`INotification`) with sequential or parallel dispatch
+- **Notifications** (`INotification`) with sequential dispatch
 - **Fluent API** registration (`AddCqrsly(cfg => ...)`)
-- **Lightweight & high-performance** (minimal reflection, delegate-based pipeline)
+- **Lightweight & high-performance** (delegate-based pipeline, no extra deps)
 - **MediatR-like ergonomics** (Send, Publish, IRequest<T>, INotification)
 
 ---

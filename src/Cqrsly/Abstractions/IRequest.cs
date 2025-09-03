@@ -1,8 +1,8 @@
 ﻿namespace Cqrsly
 {
-    // request sem retorno
+    // Command/query with return
     public interface IRequest { }
 
-    // request com retorno
-    public interface IRequest<out TResponse> { }
+    // Command/query without return
+    public interface IRequest<TResult> { }
 }

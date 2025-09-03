@@ -55,27 +55,18 @@ namespace Cqrsly
         public CqrslyOptionsBuilder AddOpenBehavior<TBehavior>() where TBehavior : class
             => AddOpenBehavior(typeof(TBehavior));
 
-        // ----- Execução do build -----
+        // ----- build -----
 
         internal void Build()
         {
-            // 1) Registrar behaviors open-generics
             foreach (var b in OpenBehaviors.Distinct())
                 Services.AddTransient(typeof(IPipelineBehavior<,>), b);
 
-            // 2) Registrar handlers por assemblies
             if (Assemblies.Count > 0)
             {
                 foreach (var asm in Assemblies.Distinct())
                     RegisterHandlersFrom(asm, HandlerLifetime);
             }
-
-            // 3) Registrar ICqrsly
-            Services.AddScoped<ICqrsly>(sp =>
-            {
-                var strategy = PublishStrategy;
-                return new CqrslyDispatcher(sp, strategy);
-            });
         }
 
         private void RegisterHandlersFrom(Assembly assembly, ServiceLifetime lifetime)

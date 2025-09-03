@@ -1,17 +1,16 @@
-﻿using Cqrsly;
-
-namespace Cqrsly
+﻿namespace Cqrsly
 {
     public interface ICqrsly
     {
-        // Request sem retorno
-        Task Send(IRequest request, CancellationToken cancellationToken = default);
+        Task Send<TRequest>(TRequest request, CancellationToken ct = default)
+            where TRequest : IRequest;
 
-        // Request com retorno (genérico)
-        Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default);
+        Task<TResponse> Send<TRequest, TResponse>(TRequest request, CancellationToken ct = default)
+            where TRequest : IRequest<TResponse>;
 
-        // Publish de notifications (domain events)
-        Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default)
+        Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken ct = default);
+
+        Task Publish<TNotification>(TNotification notification, CancellationToken ct = default)
             where TNotification : INotification;
     }
 }

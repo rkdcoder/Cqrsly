@@ -1,5 +1,5 @@
 ﻿namespace Cqrsly
 {
-    // eventos/notifications (fan-out)
+   // Domain event/notification
     public interface INotification { }
 }

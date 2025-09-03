@@ -4,7 +4,6 @@ namespace Cqrsly
 {
     public static class ServiceCollectionExtensions
     {
-        // Ponto único de entrada: fluent
         public static IServiceCollection AddCqrsly(this IServiceCollection services, Action<CqrslyOptionsBuilder>? configure = null)
         {
             if (services is null) throw new ArgumentNullException(nameof(services));
@@ -13,6 +12,7 @@ namespace Cqrsly
             configure?.Invoke(builder);
             builder.Build();
 
+            services.AddScoped<ICqrsly, CqrslyDispatcher>();
             return services;
         }
     }
