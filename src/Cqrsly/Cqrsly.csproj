@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
 
     <PackageId>Cqrsly</PackageId>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Authors>Rodrigo</Authors>
     <Company>rkdcoder.com.br</Company>
     <Product>Cqrsly NuGet</Product>
