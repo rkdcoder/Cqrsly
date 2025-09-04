@@ -1,4 +1,4 @@
-﻿# Cqrsly – Minimal CQRS Dispatcher for .NET (8+)
+# Cqrsly – Minimal CQRS Dispatcher for .NET (8+)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/rkdcoder/Cqrsly/main/src/Cqrsly/Media/icon.png" width="128" alt="Cqrsly logo" />
@@ -10,11 +10,11 @@
 
 **Cqrsly** is a plug-and-play **CQRS dispatcher** for .NET 8+ with a MediatR-like API. It provides a minimal, high-performance setup for:
 
-- **Commands & Queries** with return types
-- **Pipeline behaviors** (logging, validation, etc.)
-- **Notifications (domain events)** with sequential dispatch
-- **Fluent API registration** for easy integration
-- Minimal, production-ready setup: 1–2 lines in `Program.cs`
+* **Commands & Queries** with return types
+* **Pipeline behaviors** (logging, validation, etc.)
+* **Notifications (domain events)** with sequential dispatch
+* **Fluent API registration** for easy integration
+* Minimal, production-ready setup: 1–2 lines in `Program.cs`
 
 ---
 
@@ -28,7 +28,9 @@ dotnet add package Cqrsly
 
 ---
 
-### 2) Register in Program.cs
+### 2) Register
+
+#### 2.1) Standard approach (Register in Program.cs)
 
 ```csharp
 using Cqrsly;
@@ -44,6 +46,38 @@ var app = builder.Build();
 app.MapControllers();
 app.Run();
 ```
+
+#### 2.2) Alternative approach (Assembly marker class)
+
+**Creating an empty class to use as a marker**:
+
+```csharp
+internal sealed class ApplicationAssemblyMarker { }
+```
+
+**Applying the marker class to scan all commands/queries**:
+
+```csharp
+builder.Services.AddCqrsly(cfg => cfg
+    .AddHandlersFromAssemblyContaining<ApplicationAssemblyMarker>()
+);
+```
+
+* Advantage: decouples dependency injection from specific commands/queries.
+* Recommended in DDD/Hexagonal architectures where DI bootstrap should remain independent from feature-level details.
+* Useful in larger solutions where there isn’t an obvious “root” command.
+
+**Multiple marker classes**:
+
+```csharp
+builder.Services.AddCqrsly(cfg => cfg
+    .AddHandlersFromAssemblyContaining<ApplicationAssemblyMarker>()
+    .AddHandlersFromAssemblyContaining<AnotherAssemblyMarker>()
+);
+```
+
+* Advantage: register handlers from multiple assemblies in one application.
+* Useful for modular architectures or when sharing bounded contexts.
 
 ---
 
@@ -108,11 +142,11 @@ public class AlertsController : ControllerBase
     {
         var cmd = new CreateAlertCommand(dto.Title, dto.Content);
 
-        // Duas opções de chamada:
-        // 1) Estilo MediatR (inferência do tipo de retorno)
+        // Two options:
+        // 1) MediatR-style (type inference)
         var result = await _cqrsly.Send(cmd, ct);
 
-        // 2) Estilo explícito (TRequest, TResponse)
+        // 2) Explicit style (TRequest, TResponse)
         // var result = await _cqrsly.Send<CreateAlertCommand, CommandResultDto<object?>>(cmd, ct);
 
         return Ok(result);
@@ -150,12 +184,12 @@ public sealed class GetAlertsQueryHandler : IRequestHandler<GetAlertsQuery, Comm
 
 ## Features
 
-- **Commands & Queries** with strong typing (`IRequest` and `IRequest<T>`)
-- **Pipeline behaviors** (`IPipelineBehavior<TReq,TRes>`) for logging, validation, telemetry
-- **Notifications** (`INotification`) with sequential dispatch
-- **Fluent API** registration (`AddCqrsly(cfg => ...)`)
-- **Lightweight & high-performance** (delegate-based pipeline, no extra deps)
-- **MediatR-like ergonomics** (Send, Publish, IRequest<T>, INotification)
+* **Commands & Queries** with strong typing (`IRequest` and `IRequest<T>`)
+* **Pipeline behaviors** (`IPipelineBehavior<TReq,TRes>`) for logging, validation, telemetry
+* **Notifications** (`INotification`) with sequential dispatch
+* **Fluent API** registration (`AddCqrsly(cfg => ...)`)
+* **Lightweight & high-performance** (delegate-based pipeline, no extra deps)
+* **MediatR-like ergonomics** (Send, Publish, IRequest<T>, INotification)
 
 ---
 
@@ -167,5 +201,5 @@ public sealed class GetAlertsQueryHandler : IRequestHandler<GetAlertsQuery, Comm
 
 ## Links
 
-- Repository: [https://github.com/rkdcoder/Cqrsly](https://github.com/rkdcoder/Cqrsly)
-- NuGet: [https://www.nuget.org/packages/Cqrsly](https://www.nuget.org/packages/Cqrsly)
+* Repository: [https://github.com/rkdcoder/Cqrsly](https://github.com/rkdcoder/Cqrsly)
+* NuGet: [https://www.nuget.org/packages/Cqrsly](https://www.nuget.org/packages/Cqrsly)
